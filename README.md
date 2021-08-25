@@ -1,20 +1,27 @@
-# clj-hudstats-test
+# clj-api-test
 
-FIXME: description
+A very simple Clojure API test. It extends [this API](http://docs.apis.is/#endpoint-rides) and provides extra information which is available inside the link that is provided with the request.
 
 ## Installation
 
-Download from http://example.com/FIXME.
+```
+git clone https://github.com/mateodif/clj-api-test.git
+cd clj-api-test
+lein deps
+```
 
 ## Usage
 
-FIXME: explanation
+To start the server, simply do:
+```
+lein run
+```
 
-    $ java -jar clj-hudstats-test-0.1.0-standalone.jar [args]
+Routes available:
+- /api/drivers
+- ...
 
-## Options
-
-FIXME: listing of options this app accepts.
+Send a GET request to any of the above routes to get a response.
 
 ## Examples
 
@@ -22,15 +29,11 @@ FIXME: listing of options this app accepts.
 
 ### Bugs
 
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
+You tell me (just kidding :])
 
 ## License
 
-Copyright © 2021 FIXME
+Copyright © 2021 Mateo Difranco
 
 This program and the accompanying materials are made available under the
 terms of the Eclipse Public License 2.0 which is available at
