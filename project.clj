@@ -7,7 +7,9 @@
                  [ring/ring-jetty-adapter "1.7.1"]
                  [metosin/reitit-ring "0.5.15"]
                  [clj-http "3.12.3"]
-                 [org.clojure/data.json "2.4.0"]]
+                 ; [http.async.client "1.3.1"]
+                 [org.clojure/data.json "2.4.0"]
+                 [reaver "0.1.3"]]
   :main ^:skip-aot clj-hudstats-test.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all
