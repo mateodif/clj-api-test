@@ -12,11 +12,12 @@
 
 (def base-api-url "https://apis.is/rides/")
 (def drivers-url (str base-api-url "samferda-drivers"))
+(def passengers-url (str base-api-url "samferda-passengers"))
 
 (defn ping-handler [_]
   {:status 200 :body "pong"})
 
-(defn parse-drivers-html [html-body]
+(defn parse-samferda-html [html-body]
   (reaver/extract-from (reaver/parse html-body) "tr"
                        [:label :value]
                        "td > b" reaver/text
@@ -31,8 +32,7 @@
 
 (defn transform-value-as-key
   "Takes a sequence of two-valued maps.
-   The following transformation is applied:
-   The first value of a map as the key and the second value as the value.
+   Transforms the first value of a map as the key and the second value as the value.
    Returns a map of all the key and values.
    (transform-value-as-key [{:a 1 :b 2} {:c 3 :d 4}]) => {:1 2 :3 4}"
   [map-seq]
@@ -48,23 +48,29 @@
 (defn extend-extra-info [hmap]
   (json/write-str
    (map (fn [trip]
-          (let [parsed-html (parse-drivers-html (:html trip))
+          (let [parsed-html (parse-samferda-html (:html trip))
                 extra-info (transform-value-as-key parsed-html)
                 extra-info (geo/add-distance extra-info)]
             (merge (dissoc trip :html) extra-info)))
         (assoc-html-by-key :link hmap))))
 
+(defn extend-api-url [url]
+  (extend-extra-info
+   (:results (request-and-parse-json url))))
+
 (defn drivers-handler [_]
-  {:status 200 :body
-   (extend-extra-info
-    (:results (request-and-parse-json drivers-url)))})
+  {:status 200 :body (extend-api-url drivers-url)})
+
+(defn passengers-handler [_]
+  {:status 200 :body (extend-api-url passengers-url)})
 
 (def app
   (ring/ring-handler
    (ring/router
     ["/api"
      ["/ping" ping-handler]
-     ["/drivers" drivers-handler]])
+     ["/drivers" drivers-handler]
+     ["/passengers" passengers-handler]])
    (ring/create-default-handler)))
 
 (defn -main

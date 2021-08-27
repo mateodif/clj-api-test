@@ -1,4 +1,4 @@
-# clj-api-test
+# Clojure API Test
 
 A very simple Clojure API test. It extends [this API](http://docs.apis.is/#endpoint-rides) and provides extra information which is available inside the link that is provided with the request.
 
@@ -19,13 +19,22 @@ lein run
 
 Routes available:
 - /api/drivers
-- ...
+- /api/passengers
 
 Send a GET request to any of the above routes to get a response.
 
-## Examples
+## Using the REPL
 
-...
+If you want to test different functions of this project, start a REPL with `lein repl` and write:
+```
+=> (jetty/run-jetty app {:port 3000 :join? false})
+```
+
+## Missing features
+
+- Asyncronous scraping (!!)
+- Testing
+- A nice documentation
 
 ### Bugs
 
